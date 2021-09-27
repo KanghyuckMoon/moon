@@ -35,7 +35,7 @@ public class TutorialEnemyGenerator : MonoBehaviour
     public GameObject ground;
     public Bounds groundbound;
 
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         groundbound = ground.GetComponent<MeshRenderer>().bounds;

@@ -10,6 +10,11 @@ public class PlayerController : BaseCharacterController
     public int maxAmmo;
     private bool isReloading = false;
     public CameraController cameraController;
+    private Vector2 screenCenterPos;
+    public LayerMask mouseColliderLayerMask;
+    private Vector3 aimPos;
+    public GameObject aimtest;
+    public Transform bullectSpawn;
 
     protected override void Start()
     {
@@ -17,6 +22,7 @@ public class PlayerController : BaseCharacterController
         maxAmmo = 10;
         currentAmmo = maxAmmo;
         UpdateUI();
+        screenCenterPos = new Vector2(Screen.width / 2, Screen.height / 2);
     }
 
     private void UpdateUI()
@@ -26,7 +32,14 @@ public class PlayerController : BaseCharacterController
 
     private void Update()
     {
-        //
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPos);
+        if(Physics.Raycast(ray, out RaycastHit hit, 999f, mouseColliderLayerMask))
+        {
+            aimPos = hit.point;
+            aimtest.transform.position = hit.point;
+        }
+
+
         if(Input.GetMouseButtonDown(0) && !isReloading)
         {
             ShotBullet();
@@ -64,7 +77,8 @@ public class PlayerController : BaseCharacterController
             Invoke("Reload", 3f);
         }
         animator.SetTrigger("Shot");
-        Instantiate(bulletPref, transform.position + transform.forward * 1f + transform.up * 1f, Quaternion.Euler(Camera.main.transform.rotation.x + 90, transform.eulerAngles.y,0));
+        Vector3 aimDir = (aimPos - bullectSpawn.position).normalized; 
+        Instantiate(bulletPref, bullectSpawn.position, Quaternion.LookRotation(aimDir));
         UpdateUI();
     }
 

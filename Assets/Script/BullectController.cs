@@ -15,6 +15,7 @@ public class BullectController : MonoBehaviour
     private void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        transform.Rotate(90, 0, 0);
     }
 
     private void Start()
@@ -26,7 +27,7 @@ public class BullectController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-           if(Vector3.Distance(firstPosition,transform.position) > maxDistance)
+        if(Vector3.Distance(firstPosition,transform.position) > maxDistance)
         {
             Destroy(gameObject);
         }
@@ -34,15 +35,13 @@ public class BullectController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        switch(collision.gameObject.tag)
         {
-            //Destroy(collision.gameObject);
-            collision.gameObject.GetComponent<EnemyController>().Onhit();
-            Destroy(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
+            case "Enemy":
+                collision.gameObject.GetComponent<EnemyController>().Onhit();
+                break;
+            case "bullet":
+                break;
         }
     }
 

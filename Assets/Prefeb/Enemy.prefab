@@ -131,3 +131,6 @@ MonoBehaviour:
   speed: 0
   jumpForce: 0
   gravitySpeed: 0
+  type: 0
+  hp: 5
+  hpHUD: {fileID: 1919049083514648649, guid: 8c7178a25c4b1404abd5f5e384a1b266, type: 3}

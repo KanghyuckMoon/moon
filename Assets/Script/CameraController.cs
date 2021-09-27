@@ -36,18 +36,7 @@ public class CameraController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
         Rotate(mouseX * rerex, mouseY * rerey);
-        //if (Input.GetKey(KeyCode.E))
-        //    {
-        //        Rotate(1);
-        //    }
-        //    else if(Input.GetKey(KeyCode.Q))
-        //    {
-        //        Rotate(-1);
-        //    }
-        //    else
-        //    {
-        //        Rotate(0);
-        //    }
+
         transform.position = follwingTarget.transform.position + offset + relativePos;
         transform.LookAt(follwingTarget.transform.position + transform.TransformDirection(lookOffSet));
     }

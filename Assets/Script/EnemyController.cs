@@ -11,6 +11,7 @@ public class EnemyController : BaseCharacterController
     private ZombieType type;
     [SerializeField]
     private int hp = 5;
+    public GameObject hpHUD;
 
 
     protected override void Start()
@@ -40,6 +41,8 @@ public class EnemyController : BaseCharacterController
     private void OnEnable()
     {
         controller.enabled = true;
+        AddHUD();
+        SetHp();
     }
 
     private void OnDisable()
@@ -67,5 +70,20 @@ public class EnemyController : BaseCharacterController
     {
         gameObject.SetActive(false);
         TutorialEnemyGenerator.Instance.Zombiess(type,gameObject);
+    }
+
+    private void AddHUD()
+    {
+        hpHUD = UIManager.Instance.AddEnemyHUD();
+    }
+
+    private void LateUpdate()
+    {
+        UpdataHUDPosition();
+    }
+
+    public void UpdataHUDPosition()
+    {
+        UIManager.Instance.UpdatePanel(hpHUD,transform);
     }
 }
