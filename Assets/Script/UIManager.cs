@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
 
     public Camera uiCamera;
     public RectTransform canvas;
-    public GameObject hpBar;
+    public Slider hpBar;
     public GameObject player;
     public GameObject hudRoot;
 
@@ -24,22 +24,23 @@ public class UIManager : MonoBehaviour
         currentAmmoText.text = string.Format("{0}", count);
     }
 
-    public GameObject AddEnemyHUD()
+    public Slider AddEnemyHUD()
     {
-        GameObject hud = Instantiate(hpBar, hudRoot.transform);
+        Slider hud = Instantiate(hpBar, hudRoot.transform);
         return hud;
     }
 
 
 
-    public void UpdatePanel(GameObject hud, Transform target)
+    public void UpdateHUDPanel(Slider hud, Vector3 target)
     {
-        Vector3 targetPos = target.position;
-        Vector2 screenPoint = Camera.main.WorldToViewportPoint(targetPos);
-        Vector2 canvasPosition;
-        Vector2 position = new Vector2(screenPoint.x * canvas.rect.width, screenPoint.y * canvas.rect.height);
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(canvas,position,uiCamera, out canvasPosition);
+        Vector3 targetPos = target;
+        Vector3 viewPoint = Camera.main.WorldToViewportPoint(targetPos);
+        if(viewPoint.z < 0)
+        {
+            return;
+        }
+        Vector2 position = new Vector2(viewPoint.x * canvas.rect.width, viewPoint.y * canvas.rect.height);
         hud.transform.localPosition = position;
     }
 }
